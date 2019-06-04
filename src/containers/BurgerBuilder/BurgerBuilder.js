@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummury from '../../components/Burger/OrderSummury/OrderSummury';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,7 +21,8 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         totalPrice: 4,
-        purchaseable: false
+        purchaseable: false,
+        isShowModal: false
     }
 
     updatePurchaseState = (ingredients) => {
@@ -29,7 +32,14 @@ class BurgerBuilder extends Component {
             purchaseable: disabledOrderNow
         })
     }
+    showModalHandler = () => {
+        // this.state.purchaseable===true ? this.setState({isShowModal:true}) :  this.setState({isShowModal:false})
+        this.setState({ isShowModal: true })
+    }
+    closeModalHandler = () => {
+        this.setState({ isShowModal: false })
 
+    }
     addIngredientHandler = (type) => {
         const oldCount = this.state.ingredients[type];
         const updatedCounted = oldCount + 1;
@@ -39,7 +49,7 @@ class BurgerBuilder extends Component {
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
         this.updatePurchaseState(updatedIngredients);
- 
+
         this.setState({
             ingredients: updatedIngredients,
             totalPrice: newPrice,
@@ -61,11 +71,16 @@ class BurgerBuilder extends Component {
             totalPrice: newPrice,
         })
     }
-    
+
     render() {
-    
+
         return (
             <Aux>
+                {/* {this.state.isShowModal&&<Modal show={this.state.isShowModal}><OrderSummury ingredients={this.state.ingredients}/></Modal>} */}
+                <Modal closeModal={this.closeModalHandler} show={this.state.isShowModal}>
+                    <OrderSummury ingredients={this.state.ingredients} />
+                </Modal>
+
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
                     ingredientAdded={this.addIngredientHandler}
@@ -73,6 +88,7 @@ class BurgerBuilder extends Component {
                     stateIngredients={this.state.ingredients}
                     price={this.state.totalPrice}
                     disabledOrderNow={this.state.purchaseable}
+                    showModal={this.showModalHandler}
                 />
             </Aux>
         )
