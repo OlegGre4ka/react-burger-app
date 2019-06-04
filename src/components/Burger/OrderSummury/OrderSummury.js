@@ -1,6 +1,7 @@
 import React from 'react';
-// import classes from './Modal.module.scss';
 import Aux from '../../../hoc/Auxiliary';
+import Button from '../../UI/Button/Button';
+
 const orderSummury = props => {
     const ingredients = {...props.ingredients};
     const ingredientsSummury = Object.keys(ingredients)
@@ -13,7 +14,11 @@ const orderSummury = props => {
             <ul>
 {ingredientsSummury}
             </ul>
+            <p><strong>Total Price:</strong> {props.price.toFixed(2)} $</p>
             <p>Continue to Checkout?</p>
+            <Button btnType="Danger" clicked={props.closeModal}>CANCEL</Button>
+            <Button btnType="Success" clicked={props.closeModal}>CONTINUE</Button>
+
         </Aux>
     )
 }
