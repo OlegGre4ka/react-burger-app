@@ -4,15 +4,15 @@ import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends React.Component {
     shouldComponentUpdate(nextProps){
-        if(nextProps.show !==this.props.show){
+        if(nextProps.show !==this.props.show || nextProps.children!==this.props.children){
             return true
         }
         return false
     }
 
-    componentDidUpdate(){
-        console.log('Modal-DidUpdate');
-    }
+    // componentDidUpdate(){
+    //     console.log('Modal-DidUpdate');
+    // }
 
     render() {
             // console.log('Modal')
